@@ -1,0 +1,28 @@
+.dashboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dashboard-content {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.dashboard-content button {
+  margin: 10px;
+  align-self: flex-end;
+}
+
+.dashboard .form {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard .form .form-field {
+  margin-bottom: 10px;
+}

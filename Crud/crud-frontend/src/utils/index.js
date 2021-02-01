@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import AdvancedStorage from '../contracts/Crud.json';
+import Crud from '../contracts/Crud.json';
 
 const getWeb3 = () => {
   return new Promise((resolve, reject) => {
@@ -37,14 +37,14 @@ const getWeb3 = () => {
   });
 };
 
-const getAdvancedStorageContract = async web3 => {
+const getCrudContract = async web3 => {
   const networkId = await web3.eth.net.getId();
-  const deployedNetwork = AdvancedStorage.networks[networkId];
-  const advancedStorage = new web3.eth.Contract(
-    AdvancedStorage.abi,
+  const deployedNetwork = Crud.networks[networkId];
+  const crud = new web3.eth.Contract(
+    Crud.abi,
     deployedNetwork && deployedNetwork.address
   );
-  return { advancedStorage };
+  return { crud };
 };
 
-export { getWeb3, getAdvancedStorageContract };
+export { getWeb3, getCrudContract };
