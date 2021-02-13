@@ -79,6 +79,7 @@ module.exports = {
     // timeout: 100000
   },
 
+  contracts_build_directory: path.join(__dirname, "escrow-frontend/src/contracts"),
   // Configure your compilers
   compilers: {
     solc: {
