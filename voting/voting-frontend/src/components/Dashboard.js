@@ -10,7 +10,6 @@ const Dashboard = () => {
   const [accounts, setAccounts] = useState([]);
   const [votingContract, setVotingContract] = useState(undefined);
   const [ballotForm, setBallotForm] = useState({ ballotName: '', choices: [], duration: 0, voters: [] });
-  // const [votersForm, setVotersForm] = useState({ voters: [] });
 
   useEffect(() => {
     const init = async () => {
@@ -25,15 +24,29 @@ const Dashboard = () => {
   }, []);
 
   const handleChange = (e) => {
-    setBallotForm({ ...ballotForm, [e.target.name]: e.target.value });
+      setBallotForm({ ...ballotForm, [e.target.name]: e.target.value });
   }
 
-  const createBallot = () => {
-
+  const createBallot = async (e) => {
+    e.preventDefault();
+    console.log('ballotForm=====', ballotForm);
+    try {
+      await votingContract.voting.methods.createBallot(ballotForm.ballotName, [...ballotForm.choices.split(",")], ballotForm.duration).send({ from: accounts });
+      showNotification('Ballot Created Successfully.', 'success', 5000);
+    } catch (e) {
+      showNotification(e.message, 'error', 5000);
+    }
   }
 
-  const addVoters = () => {
-    
+  const addVoters = async (e) => {
+    e.preventDefault();
+    console.log('ballotForm=====', ballotForm);
+    try {
+      await votingContract.voting.methods.addVoters([...ballotForm.voters.split(",")]).send({ from: accounts });
+      showNotification('Voters added Successfully.', 'success', 5000);
+    } catch (e) {
+      showNotification(e.message, 'error', 5000);
+    }
   }
 
   return (
@@ -47,18 +60,21 @@ const Dashboard = () => {
             variant="outlined"
             name="ballotName"
             onChange={handleChange}
+            required
           />
           <TextField
-            label="Choices"
+            label="Choices (ex: increased,decreased)"
             variant="outlined"
             name="choices"
             onChange={handleChange}
+            required
           />
           <TextField
             label="Duration(s)"
             variant="outlined"
             name="duration"
             onChange={handleChange}
+            required
           />
           <Button
             variant="contained"
@@ -71,7 +87,7 @@ const Dashboard = () => {
       </div>
       <div className="add-voters">
         <h2 className="sub-title">Add Voters</h2>
-        <form>
+        <form onSubmit={addVoters}>
           <TextField
             label="Add Voters"
             variant="outlined"
